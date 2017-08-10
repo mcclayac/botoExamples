@@ -1,10 +1,8 @@
 __author__ = 'anthonymcclay'
 __project__ = 'botoExamples'
-__date__ = '7/20/17'
+__date__ = '7/27/17'
 __revision__ = '$'
 __revision_date__ = '$'
-
-
 
 
 def parseArg():
@@ -14,7 +12,7 @@ def parseArg():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=textwrap.dedent('''\
-                                    Creates an SQS Queue 
+                                    Deletes an SQS Queue 
                                     SQS Queue
                                     ----------------------
                                     '''),
@@ -24,33 +22,27 @@ def parseArg():
             Date: 7/24/2017 
             All Rights reserved''')
 
-    parser.add_argument("queueName", help="The name queue to create")
+    parser.add_argument("queueUrl", help="The name queue URL")
 
     args = parser.parse_args()
-    queueName = args.queueName
+    queueUrl = args.queueUrl
     programName = parser.prog
-    return queueName, programName
+    return queueUrl, programName
 
 
 
 
-def createQueue(queueName):
+def deleteQueue(queueUrl):
     import boto3
 
-    # Get the service resource
-    sqs = boto3.resource('sqs')
+    # Create SQS client
+    sqs = boto3.client('sqs')
 
-    # Create the queue. This returns an SQS.Queue instance
-    queue = sqs.create_queue(QueueName=queueName, Attributes={'DelaySeconds': '5'})
+    # Delete SQS queue
+    sqs.delete_queue(QueueUrl=queueUrl)
 
-    # You can now access identifiers and attributes
-    print(queue.url)
-    print("Delay Seconds : " + queue.attributes.get('DelaySeconds'))
-
-
-
-(queueName, programName) = parseArg()
-createQueue(queueName)
+(queueUrl, programNAme) = parseArg()
+deleteQueue(queueUrl)
 
 
 

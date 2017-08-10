@@ -16,8 +16,8 @@ sqs = boto3.resource('sqs')
 
 # Print out each queue name, which is part of its ARN
 for queue in sqs.queues.all():
-    print(queue.url)
-    print(queue.attributes['QueueArn'].split(':')[-1])
+    print("queueArn : " + queue.attributes['QueueArn'].split(':')[-1] + "\t queue URL : " + queue.url )
+
 
 
 

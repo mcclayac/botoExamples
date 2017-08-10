@@ -1,10 +1,8 @@
 __author__ = 'anthonymcclay'
 __project__ = 'botoExamples'
-__date__ = '7/20/17'
+__date__ = '7/27/17'
 __revision__ = '$'
 __revision_date__ = '$'
-
-
 
 
 def parseArg():
@@ -31,26 +29,18 @@ def parseArg():
     programName = parser.prog
     return queueName, programName
 
-
-
-
-def createQueue(queueName):
+def getQueueURL(queueName):
     import boto3
 
-    # Get the service resource
-    sqs = boto3.resource('sqs')
+    # Create SQS client
+    sqs = boto3.client('sqs')
 
-    # Create the queue. This returns an SQS.Queue instance
-    queue = sqs.create_queue(QueueName=queueName, Attributes={'DelaySeconds': '5'})
+    # Get URL for SQS queue
+    response = sqs.get_queue_url(QueueName=queueName)
 
-    # You can now access identifiers and attributes
-    print(queue.url)
-    print("Delay Seconds : " + queue.attributes.get('DelaySeconds'))
-
-
+    print(response['QueueUrl'])
 
 (queueName, programName) = parseArg()
-createQueue(queueName)
-
+getQueueURL(queueName)
 
 

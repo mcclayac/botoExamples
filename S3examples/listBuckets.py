@@ -12,7 +12,7 @@ response = s3.list_buckets()
 buckets = [bucket['Name'] for bucket in response['Buckets']]
 
 # Print out the bucket list
-print("Bucket List: %s" % buckets)
+# print("Bucket List: %s" % buckets)
 
 
 # Create an S3 client
